@@ -17,6 +17,7 @@ import { MdContentCopy, MdClose } from "react-icons/md";
 import { BsClipboard2Check } from "react-icons/bs";
 import { HiMiniCheckBadge } from "react-icons/hi2";
 import { extractInvoiceDetails } from "./actions";
+import { toast } from 'react-hot-toast';
 import { unstable_noStore as noStore } from "next/cache";
 import { readStreamableValue } from "ai/rsc";
 import {
@@ -89,12 +90,14 @@ const ResumeReview: React.FC = () => {
       if (ref.current) {
         const text = ref.current.innerText;
         navigator.clipboard.writeText(text);
+        toast.success("Copied to clipboard!");
       } else {
         alert("Failed to copy text");
       }
     },
     []
   );
+
 
   const fetchExtractedText = useCallback(async (url: string) => {
     try {
@@ -216,123 +219,55 @@ const ResumeReview: React.FC = () => {
       ) : null}
       {generation ? (
         <div className="w-[800px] mx-auto">
-        <Card>
-          <CardHeader>
-            <h2 className="text-2xl font-semibold">Invoice Details</h2>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <h1 className="text-4xl font-extrabold text-green-500">
-                Customer Details: {generation?.customer_details?.name || "N/A"}
-              </h1>
-              <a href="/review" className="text-gray-400 text-lg">
-                Click here to do one more!
-              </a>
+              <Card className="bg-gray-100 text-black">
+        <CardHeader>
+          <h2 className="text-2xl font-semibold">Invoice Details</h2>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium">Customer</h3>
+              <p>{generation?.customer_details?.name || "N/A"}</p>
             </div>
-            <div className="mt-8">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold">Products</h2>
-                <button
-                  className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
-                >
-                  {generation?.products?.length ? (
-                    <BsClipboard2Check />
-                  ) : (
-                    <MdContentCopy />
-                  )}
-                </button>
-              </div>
-              <div className="mt-2 text-white text-justify">
-                <ul className="list-disc pl-5">
-                  {generation?.products?.map((product, index) => (
-                    <li key={index}>
-                      {product.description || "N/A"} - Qty: {product.quantity || "N/A"}, Unit
-                      Price: {product.unit_price || "N/A"}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+
+            <div>
+              <h3 className="text-lg font-medium flex items-center justify-between">
+                Products
+              </h3>
+              <ul className="list-disc pl-5 text-sm">
+                {generation?.products?.map((product, index) => (
+                  <li key={index}>
+                    {product.description || "N/A"} - Qty: {product.quantity || "N/A"}, Unit Price: {product.unit_price || "N/A"}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="mt-8">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold">Total Amount</h2>
-                <button
-                  className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
-                >
-                  {generation?.total_amount ? (
-                    <BsClipboard2Check />
-                  ) : (
-                    <MdContentCopy />
-                  )}
-                </button>
-              </div>
-              <div className="mt-2 text-white text-justify">
-                <ul className="list-disc pl-5">
-                  <li>
-                    Subtotal: {generation?.total_amount?.subtotal || "N/A"}
-                  </li>
-                  <li>Taxes: {generation?.total_amount?.taxes || "N/A"}</li>
-                  <li>
-                    Discounts: {generation?.total_amount?.discounts || "N/A"}
-                  </li>
-                  <li>
-                    Final Total: {generation?.total_amount?.final_total || "N/A"}
-                  </li>
-                </ul>
-              </div>
+
+            <div>
+              <h3 className="text-lg font-medium">Total Amount</h3>
+              <ul className="list-none text-sm">
+                <li>Subtotal: {generation?.total_amount?.subtotal || "N/A"}</li>
+                <li>Taxes: {generation?.total_amount?.taxes || "N/A"}</li>
+                <li>Discounts: {generation?.total_amount?.discounts || "N/A"}</li>
+                <li className="font-semibold">Final Total: {generation?.total_amount?.final_total || "N/A"}</li>
+              </ul>
             </div>
-            <div className="mt-8">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold">Payment Terms</h2>
-                <button
-                  className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
-                >
-                  {generation?.payment_terms ? (
-                    <BsClipboard2Check />
-                  ) : (
-                    <MdContentCopy />
-                  )}
-                </button>
-              </div>
-              <div className="mt-2 text-white text-justify">
-                <ul className="list-disc pl-5">
-                  <li>
-                    Due Date:{" "}
-                    {generation?.payment_terms?.due_date|| "N/A"}
-                  </li>
-                  <li>
-                    Payment Method: {generation?.payment_terms?.payment_method || "N/A"}
-                  </li>
-                </ul>
-              </div>
+
+            <div>
+              <h3 className="text-lg font-medium">Payment Terms</h3>
+              <p className="text-sm">Due Date: {generation?.payment_terms?.due_date || "N/A"}</p>
+              <p className="text-sm">Payment Method: {generation?.payment_terms?.payment_method || "N/A"}</p>
             </div>
-            <div className="mt-8">
-              <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-semibold">Invoice Details</h2>
-                <button
-                  className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
-                >
-                  {generation?.invoice_details ? (
-                    <BsClipboard2Check />
-                  ) : (
-                    <MdContentCopy />
-                  )}
-                </button>
-              </div>
-              <div className="mt-2 text-white text-justify">
-                <ul className="list-disc pl-5">
-                  <li>
-                    Invoice #: {generation?.invoice_details?.number || "N/A"}
-                  </li>
-                  <li>
-                    Issued on:{" "}
-                    {generation?.invoice_details?.issue_date || "N/A"}
-                  </li>
-                </ul>
-              </div>
+
+            <div>
+              <h3 className="text-lg font-medium">Invoice Info</h3>
+              <p className="text-sm">Invoice #: {generation?.invoice_details?.number || "N/A"}</p>
+              <p className="text-sm">Issued on: {generation?.invoice_details?.issue_date || "N/A"}</p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </CardContent>
+      </Card>
+
       </div>
       ) : null}
       {!generation && !loading ? (
