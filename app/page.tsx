@@ -19,11 +19,51 @@ import { HiMiniCheckBadge } from "react-icons/hi2";
 import { extractInvoiceDetails } from "./actions";
 import { unstable_noStore as noStore } from "next/cache";
 import { readStreamableValue } from "ai/rsc";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+interface CustomerDetails {
+  name?: string;
+  address?: string;
+  phone_number?: string;
+  email?: string;
+}
+
+interface Product {
+  description?: string;
+  quantity?: number;
+  unit_price?: number;
+}
+
+interface TotalAmount {
+  subtotal?: number;
+  taxes?: number;
+  discounts?: number;
+  final_total?: number;
+}
+
+interface PaymentTerms {
+  due_date?: string;
+  payment_method?: string;
+}
+
+interface InvoiceDetails {
+  number?: string;
+  issue_date?: string;
+}
 
 interface Generation {
-  customer_details: string;
-  product: string;
-  total_amount: string;
+  customer_details?: CustomerDetails;
+  products?: Product[];
+  total_amount?: TotalAmount;
+  payment_terms?: PaymentTerms;
+  invoice_details?: InvoiceDetails;
 }
 
 const ResumeReview: React.FC = () => {
@@ -175,107 +215,125 @@ const ResumeReview: React.FC = () => {
         </div>
       ) : null}
       {generation ? (
-        <div className="w-[800px]">
-          <div>
-            <div className="text-2xl m-2">
-              <h2>
-                Invoice Extracted :{" "}
-                <span className="text-green-500">
-                  {file ? selectedFileName : "No file uploaded"}
-                </span>
-              </h2>
-            </div>
-            <div className="w-[480px] mx-auto rounded-xl border border-dashed border-indigo-800 bg-black/80 p-10">
-              <div className="text-white">
-                <h1 className="text-4xl font-extrabold">
-                  Your Score:{" "}
-                  <span className="text-green-500">
-                    {generation.customer_details}
-                  </span>
-                </h1>
-                <p className="mt-2">
-                  <a href="/review" className="text-gray-400 text-lg">
-                    Click here to do one more!
-                  </a>
-                </p>
-              </div>
-            </div>
-            <div>
-              <h1 className="text-3xl font-semibold mt-8">
-                -:  Invoice Details :-
+        <div className="w-[800px] mx-auto">
+        <Card>
+          <CardHeader>
+            <h2 className="text-2xl font-semibold">Invoice Details</h2>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <h1 className="text-4xl font-extrabold text-green-500">
+                Customer Details: {generation?.customer_details?.name || "N/A"}
               </h1>
+              <a href="/review" className="text-gray-400 text-lg">
+                Click here to do one more!
+              </a>
             </div>
-
-            <div className="w-full p-8">
-              <div className="mt-8 rounded-lg p-8 bg-black/[0.3]">
-                <div className="flex flow-row justify-between items-center">
-                  <h2 className="text-2xl font-semibold">Strengths</h2>
-                  <button
-                    onClick={() => {
-                      copyToClipboard(strengthsRef);
-                      setStrengthCopySuccess(true);
-                    }}
-                    className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
-                  >
-                    {strengthcopySuccess ? (
-                      <BsClipboard2Check />
-                    ) : (
-                      <MdContentCopy />
-                    )}
-                  </button>
-                </div>
-                <hr className="bg-grey-300 h-0.2 my-1 border-dotted" />
-                <div
-                  ref={strengthsRef}
-                  className="w-full text-white text-justify mt-2 flex flex-col items-center"
+            <div className="mt-8">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-semibold">Products</h2>
+                <button
+                  className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
                 >
-                  {/* <ul className="list-decimal pl-5">
-                    {generation.product?.map((strength, index) => (
-                      <li key={index}>{strength}</li>
-                    ))}
-                  </ul> */}
-                  <ul className="list-disc pl-5">
-                    <li>{generation.product}</li>
-                  </ul>
-                </div>
+                  {generation?.products?.length ? (
+                    <BsClipboard2Check />
+                  ) : (
+                    <MdContentCopy />
+                  )}
+                </button>
               </div>
-              <div className="rounded-lg mt-8 p-8 bg-black/[0.3]">
-                <div className="flex flex-row justify-between items-center">
-                  <h1 className="text-2xl font-semibold">
-                    Areas for Improvement
-                  </h1>
-                  <button
-                    onClick={() => {
-                      copyToClipboard(feedbacksRef);
-                      setFeedbackCopySuccess(true);
-                    }}
-                    className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl rounded p-2"
-                  >
-                    {feedbackcopySuccess ? (
-                      <BsClipboard2Check />
-                    ) : (
-                      <MdContentCopy />
-                    )}
-                  </button>
-                </div>
-                <hr className="bg-grey-300 h-0.2 my-1 border-dotted" />
-                <div
-                  ref={feedbacksRef}
-                  className="w-full text-white text-justify mt-2 flex flex-col items-center"
-                >
-                  {/* <ul className="list-decimal pl-5">
-                    {generation.feedbacks?.map((feedback, index) => (
-                      <li key={index}>{feedback}</li>
-                    ))}
-                  </ul> */}
-                  <ul className="list-disc pl-5">
-                    <li>{generation.total_amount}</li>
-                  </ul>
-                </div>
+              <div className="mt-2 text-white text-justify">
+                <ul className="list-disc pl-5">
+                  {generation?.products?.map((product, index) => (
+                    <li key={index}>
+                      {product.description || "N/A"} - Qty: {product.quantity || "N/A"}, Unit
+                      Price: {product.unit_price || "N/A"}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          </div>
-        </div>
+            <div className="mt-8">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-semibold">Total Amount</h2>
+                <button
+                  className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
+                >
+                  {generation?.total_amount ? (
+                    <BsClipboard2Check />
+                  ) : (
+                    <MdContentCopy />
+                  )}
+                </button>
+              </div>
+              <div className="mt-2 text-white text-justify">
+                <ul className="list-disc pl-5">
+                  <li>
+                    Subtotal: {generation?.total_amount?.subtotal || "N/A"}
+                  </li>
+                  <li>Taxes: {generation?.total_amount?.taxes || "N/A"}</li>
+                  <li>
+                    Discounts: {generation?.total_amount?.discounts || "N/A"}
+                  </li>
+                  <li>
+                    Final Total: {generation?.total_amount?.final_total || "N/A"}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="mt-8">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-semibold">Payment Terms</h2>
+                <button
+                  className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
+                >
+                  {generation?.payment_terms ? (
+                    <BsClipboard2Check />
+                  ) : (
+                    <MdContentCopy />
+                  )}
+                </button>
+              </div>
+              <div className="mt-2 text-white text-justify">
+                <ul className="list-disc pl-5">
+                  <li>
+                    Due Date:{" "}
+                    {generation?.payment_terms?.due_date|| "N/A"}
+                  </li>
+                  <li>
+                    Payment Method: {generation?.payment_terms?.payment_method || "N/A"}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="mt-8">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-semibold">Invoice Details</h2>
+                <button
+                  className="bg-black/30 hover:text-blue-600 text-white font-extrabold text-xl p-2 rounded"
+                >
+                  {generation?.invoice_details ? (
+                    <BsClipboard2Check />
+                  ) : (
+                    <MdContentCopy />
+                  )}
+                </button>
+              </div>
+              <div className="mt-2 text-white text-justify">
+                <ul className="list-disc pl-5">
+                  <li>
+                    Invoice #: {generation?.invoice_details?.number || "N/A"}
+                  </li>
+                  <li>
+                    Issued on:{" "}
+                    {generation?.invoice_details?.issue_date || "N/A"}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
       ) : null}
       {!generation && !loading ? (
         <div className="w-full max-w-3xl p-8 bg-black/20 rounded-xl shadow-lg border border-dashed border-gray-400 hover:bg-indigo-800/20 hover:border-indigo-500">

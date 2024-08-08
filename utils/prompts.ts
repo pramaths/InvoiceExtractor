@@ -1,14 +1,64 @@
-export const invoiceExtractionPrompt = (invoiceParsedData: String) =>
-  `Extract the following details from the invoice data: ${invoiceParsedData}
-    CUSTOMER DETAILS: Extract and summarize the customer's contact information, including name, address, and communication details.
-    PRODUCTS: Extract details about the products or services purchased, including descriptions, quantities, and unit prices.
-    TOTAL AMOUNT: Extract the total amount charged, including a breakdown of taxes and any discounts applied.
-    PAYMENT TERMS: Identify and describe the payment terms that were agreed upon, such as due date and payment methods.
-    INVOICE NUMBER: Extract the unique invoice number for reference.
-    ISSUE DATE: Identify the date when the invoice was issued.
-    DUE DATE: Extract the payment due date for the invoice.
-    NOTES: Extract any additional notes that may be relevant to the invoice or payment conditions.
+import { z } from 'zod';
 
-  Use this information to populate a structured database or a system for further analysis or reporting.
-  from the above data generate customer_details like address, phone_number, mail etc.., products and total_amount
+export const InvoiceDataSchema = z.object({
+  customer_details: z.object({
+    name: z.string().optional(),
+    address: z.string().optional(),
+    phone_number: z.string().optional(),
+    email: z.string().optional(),
+  }).optional(),
+  products: z.array(
+    z.object({
+      description: z.string().optional(),
+      quantity: z.number().optional(),
+      unit_price: z.number().optional(),
+    })
+  ).optional(),
+  total_amount: z.object({
+    subtotal: z.number().optional(),
+    taxes: z.number().optional(),
+    discounts: z.number().optional(),
+    final_total: z.number().optional(),
+  }).optional(),
+  payment_terms: z.object({
+    due_date: z.string().optional(),
+    payment_method: z.string().optional(),
+  }).optional(),
+  invoice_details: z.object({
+    number: z.string().optional(),
+    issue_date: z.string().optional(),
+  }).optional(),
+});
+
+export const invoiceExtractionPrompt = (invoiceParsedData: string) =>
+  `Extract the following details from the invoice data: ${invoiceParsedData}
+
+  Use the provided Zod schema to extract the following information:
+
+  CUSTOMER DETAILS:
+    - Name
+    - Address
+    - Phone Number
+    - Email
+
+  PRODUCTS:
+    - Description
+    - Quantity
+    - Unit Price
+
+  TOTAL AMOUNT:
+    - Subtotal
+    - Taxes
+    - Discounts
+    - Final Total
+
+  PAYMENT TERMS:
+    - Due Date
+    - Payment Method
+
+  INVOICE DETAILS:
+    - Invoice Number
+    - Issue Date
+
+  The extracted data should be structured according to the provided Zod schema, which defines the expected shape of the extracted invoice data. This will ensure that the data is well-organized and easy to work with in further analysis or reporting.
   `;

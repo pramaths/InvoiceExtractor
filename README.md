@@ -22,6 +22,22 @@ InvoiceExtractor is a sophisticated tool that automates the extraction of critic
 - **AI SDKs**: Enhance UI with dynamic, generative components.
 - **Vercel**: For deployment, ensuring high availability and performance.
 
+
+## Backend Functionality
+
+### Data Extraction with Node.js
+- **Node.js** serves as the backbone for backend operations in InvoiceExtractor, efficiently managing the extraction of data from invoice PDFs. The backend leverages various libraries to read PDF files and integrates OpenAI's GPT model to accurately interpret and structure the invoice data.
+
+### Uploading Invoices to Firebase
+- After data extraction, the structured invoice data is uploaded to **Firebase**, providing a secure and scalable cloud storage solution. This allows for easy management and retrieval of invoice records, supporting robust data handling capabilities for businesses.
+
+### Real-Time Data Streaming with AI SDKs
+- Utilizing modern **AI SDKs**, InvoiceExtractor enhances its data processing capabilities by streaming extracted data in real time. This feature is particularly beneficial within the dynamic environment of a **Next.js** application, ensuring that users experience minimal latency and receive updates as they occur.
+
+### Integration in Next.js Application
+- The backend functionalities seamlessly integrate within the **Next.js** framework, utilizing API routes to handle requests for data extraction, storage, and streaming. This integration supports server-side rendering (SSR) techniques to improve the performance, SEO, and overall user experience of the InvoiceExtractor tool.
+
+
 ## Installation
 
 To get started with InvoiceExtractor:
