@@ -372,7 +372,7 @@ const ResumeReview: React.FC = () => {
         <h1 className="text-4xl font-semibold">
           How to Use the Invoice Generator?
         </h1>
-        <div className="flex justify-between gap-10 mt-12 w-full max-w-5xl">
+        {/* <div className="flex justify-between gap-10 mt-12 w-full max-w-5xl">
           <div className="flex flex-col items-center">
             <p className="font-bold my-4 text-2xl">1. Upload your Invoice</p>
             <p>
@@ -398,7 +398,7 @@ const ResumeReview: React.FC = () => {
               that the final output is precise and tailored to your needs.
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
