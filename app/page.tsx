@@ -11,13 +11,14 @@ import React, {
   useMemo,
 } from "react";
 import { IoFlaskSharp } from "react-icons/io5";
-import { FaMoneyBillWave, FaFile } from "react-icons/fa";
+import { FaFile } from "react-icons/fa";
 import { AiFillThunderbolt, AiOutlineLoading3Quarters } from "react-icons/ai";
 import { MdContentCopy, MdClose } from "react-icons/md";
 import { BsClipboard2Check } from "react-icons/bs";
 import { HiMiniCheckBadge } from "react-icons/hi2";
 import { extractInvoiceDetails } from "./actions";
 import { toast } from 'react-hot-toast';
+import { FaUser, FaBox, FaMoneyBillWave, FaCalendarAlt, FaFileInvoice } from 'react-icons/fa';
 import { unstable_noStore as noStore } from "next/cache";
 import { readStreamableValue } from "ai/rsc";
 import {
@@ -219,55 +220,93 @@ const ResumeReview: React.FC = () => {
       ) : null}
       {generation ? (
         <div className="w-[800px] mx-auto">
-              <Card className="bg-gray-100 text-black">
-        <CardHeader>
-          <h2 className="text-2xl font-semibold">Invoice Details</h2>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-medium">Customer</h3>
-              <p>{generation?.customer_details?.name || "N/A"}</p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-medium flex items-center justify-between">
-                Products
-              </h3>
-              <ul className="list-disc pl-5 text-sm">
-                {generation?.products?.map((product, index) => (
-                  <li key={index}>
-                    {product.description || "N/A"} - Qty: {product.quantity || "N/A"}, Unit Price: {product.unit_price || "N/A"}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-medium">Total Amount</h3>
-              <ul className="list-none text-sm">
-                <li>Subtotal: {generation?.total_amount?.subtotal || "N/A"}</li>
-                <li>Taxes: {generation?.total_amount?.taxes || "N/A"}</li>
-                <li>Discounts: {generation?.total_amount?.discounts || "N/A"}</li>
-                <li className="font-semibold">Final Total: {generation?.total_amount?.final_total || "N/A"}</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-medium">Payment Terms</h3>
-              <p className="text-sm">Due Date: {generation?.payment_terms?.due_date || "N/A"}</p>
-              <p className="text-sm">Payment Method: {generation?.payment_terms?.payment_method || "N/A"}</p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-medium">Invoice Info</h3>
-              <p className="text-sm">Invoice #: {generation?.invoice_details?.number || "N/A"}</p>
-              <p className="text-sm">Issued on: {generation?.invoice_details?.issue_date || "N/A"}</p>
-            </div>
+          <Card className="bg-gradient-to-br from-purple-600 to-indigo-700 text-white shadow-xl rounded-xl overflow-hidden">
+      <CardHeader className="bg-black bg-opacity-30 p-6">
+        <h2 className="text-3xl font-bold flex items-center justify-between">
+          Invoice Details
+          <span className="text-xl font-normal bg-yellow-400 text-black px-3 py-1 rounded-full">
+            #{generation?.invoice_details?.number || 'N/A'}
+          </span>
+        </h2>
+      </CardHeader>
+      <CardContent className="p-6 space-y-8">
+        <div className="grid grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold flex items-center">
+              <FaUser className="mr-2" /> Customer
+            </h3>
+            <p className="text-lg bg-white bg-opacity-10 p-2 rounded">
+              {generation?.customer_details?.name || 'N/A'}
+            </p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="space-y-2">
+            <h3 className="text-xl font-semibold flex items-center">
+              <FaCalendarAlt className="mr-2" /> Issue Date
+            </h3>
+            <p className="text-lg bg-white bg-opacity-10 p-2 rounded">
+              {generation?.invoice_details?.issue_date || 'N/A'}
+            </p>
+          </div>
+        </div>
 
+        <div>
+          <h3 className="text-xl font-semibold mb-3 flex items-center">
+            <FaBox className="mr-2" /> Products
+          </h3>
+          <ul className="space-y-2">
+            {generation?.products?.map((product, index) => (
+              <li key={index} className="bg-white bg-opacity-10 p-3 rounded flex justify-between items-center">
+                <span>{product.description || 'N/A'}</span>
+                <span>
+                  Qty: {product.quantity || 'N/A'} x ${product.unit_price || 'N/A'}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <h3 className="text-xl font-semibold mb-3 flex items-center">
+              <FaMoneyBillWave className="mr-2" /> Total Amount
+            </h3>
+            <ul className="space-y-2 text-lg">
+              <li className="flex justify-between">
+                <span>Subtotal:</span>
+                <span>${generation?.total_amount?.subtotal || 'N/A'}</span>
+              </li>
+              <li className="flex justify-between">
+                <span>Taxes:</span>
+                <span>${generation?.total_amount?.taxes || 'N/A'}</span>
+              </li>
+              <li className="flex justify-between">
+                <span>Discounts:</span>
+                <span>${generation?.total_amount?.discounts || 'N/A'}</span>
+              </li>
+              <li className="flex justify-between font-bold text-xl bg-white bg-opacity-20 p-2 rounded">
+                <span>Final Total:</span>
+                <span>${generation?.total_amount?.final_total || 'N/A'}</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold mb-3 flex items-center">
+              <FaFileInvoice className="mr-2" /> Payment Terms
+            </h3>
+            <ul className="space-y-2 text-lg">
+              <li className="flex justify-between">
+                <span>Due Date:</span>
+                <span>{generation?.payment_terms?.due_date || 'N/A'}</span>
+              </li>
+              <li className="flex justify-between">
+                <span>Payment Method:</span>
+                <span>{generation?.payment_terms?.payment_method || 'N/A'}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
       </div>
       ) : null}
       {!generation && !loading ? (
