@@ -1,16 +1,14 @@
+export const invoiceExtractionPrompt = (invoiceParsedData: String) =>
+  `Extract the following details from the invoice data: ${invoiceParsedData}
+    CUSTOMER DETAILS: Extract and summarize the customer's contact information, including name, address, and communication details.
+    PRODUCTS: Extract details about the products or services purchased, including descriptions, quantities, and unit prices.
+    TOTAL AMOUNT: Extract the total amount charged, including a breakdown of taxes and any discounts applied.
+    PAYMENT TERMS: Identify and describe the payment terms that were agreed upon, such as due date and payment methods.
+    INVOICE NUMBER: Extract the unique invoice number for reference.
+    ISSUE DATE: Identify the date when the invoice was issued.
+    DUE DATE: Extract the payment due date for the invoice.
+    NOTES: Extract any additional notes that may be relevant to the invoice or payment conditions.
 
-export const atsResumeAnalysisPrompt = (resumeParsedData: String) =>
-  ` This is the parsed data from the resume: ${resumeParsedData}:
-    PROFESSIONAL SUMMARY: Summarize the candidate's professional background and career highlights.
-    EXPERIENCE: Detail the candidate's work experience, including job titles, responsibilities, and achievements.
-    EDUCATION: Provide an overview of the candidate's educational background, degrees, and any relevant coursework.
-    SKILLS: List the candidate's technical and soft skills, including proficiency levels.
-    CERTIFICATIONS: Mention any certifications the candidate has earned.
-    PROJECTS: Describe any projects the candidate has worked on, including the context, role, and outcomes.
-    ACHIEVEMENTS: Highlight any notable achievements or recognitions the candidate has received.
-    LANGUAGES: Indicate any languages the candidate speaks and their proficiency levels.
-    VOLUNTEER EXPERIENCE: Detail any volunteer work the candidate has done.
-    
-    The above categories need to be reviewed. Based on this information, we need to generate strengths and feedback for each category.
-    For each category, assign a score out of 10 and provide feedback and strengths with at least 4 points for strengths and 4 points for feedback.
+  Use this information to populate a structured database or a system for further analysis or reporting.
+  from the above data generate customer_details like address, phone_number, mail etc.., products and total_amount
   `;
