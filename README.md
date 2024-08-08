@@ -2,6 +2,11 @@
 
 # InvoiceExtractor
 
+## Demo-URL
+```
+https://invoice-extractor-blush.vercel.app/
+```
+
 ## Overview
 InvoiceExtractor is a sophisticated tool that automates the extraction of critical information from invoice PDFs. It uses OpenAI's GPT Large Language Model to parse text efficiently and accurately, facilitating seamless data handling. This project leverages Next.js for its front-end, employing SSR techniques to enhance performance and SEO, while the back-end runs on Node.js with Firebase as the database solution. The generative UI is powered by AI SDKs, ensuring a dynamic and interactive user experience. Deployed on Vercel, this tool provides a robust and scalable solution for businesses needing automated invoice data extraction.
 
@@ -70,3 +75,5 @@ Deploying on Vercel:
 ## Contributing
 Contributions are welcome! Please fork the repository and submit pull requests with your proposed changes.
 
+## demo images
+![alt text](image.png)

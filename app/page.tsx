@@ -21,6 +21,7 @@ import { toast } from 'react-hot-toast';
 import { FaUser, FaBox, FaMoneyBillWave, FaCalendarAlt, FaFileInvoice } from 'react-icons/fa';
 import { unstable_noStore as noStore } from "next/cache";
 import { readStreamableValue } from "ai/rsc";
+import Header from "../components/Header";
 import {
   Card,
   CardContent,
@@ -197,6 +198,7 @@ const ResumeReview: React.FC = () => {
 
   return (
     <div className="bg-gradient-to-b from-indigo-950 to-black flex flex-col justify-center items-center text-center text-white pt-48">
+      <Header title="Invoice Data Extractor" />
       <div
         style={{
           backgroundImage: "url('/hero-light.svg')",
@@ -368,10 +370,10 @@ const ResumeReview: React.FC = () => {
         </div>
       </div>
 
-      <div className="my-32">
+      {/* <div className="my-32">
         <h1 className="text-4xl font-semibold">
           How to Use the Invoice Generator?
-        </h1>
+        </h1> */}
         {/* <div className="flex justify-between gap-10 mt-12 w-full max-w-5xl">
           <div className="flex flex-col items-center">
             <p className="font-bold my-4 text-2xl">1. Upload your Invoice</p>
@@ -399,7 +401,7 @@ const ResumeReview: React.FC = () => {
             </p>
           </div>
         </div> */}
-      </div>
+      {/* </div> */}
     </div>
   );
 };
