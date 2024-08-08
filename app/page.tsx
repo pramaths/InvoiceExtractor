@@ -238,6 +238,15 @@ const ResumeReview: React.FC = () => {
             <p className="text-lg bg-white bg-opacity-10 p-2 rounded">
               {generation?.customer_details?.name || 'N/A'}
             </p>
+            <p className="text-lg bg-white bg-opacity-10 p-2 rounded">
+              {generation?.customer_details?.email || 'N/A'}
+            </p>
+            <p className="text-lg bg-white bg-opacity-10 p-2 rounded">
+              {generation?.customer_details?.phone_number || 'N/A'}
+            </p>
+            <p className="text-lg bg-white bg-opacity-10 p-2 rounded">
+              {generation?.customer_details?.address || 'N/A'}
+            </p>
           </div>
           <div className="space-y-2">
             <h3 className="text-xl font-semibold flex items-center">
@@ -329,7 +338,7 @@ const ResumeReview: React.FC = () => {
             className="w-lg m-3 py-5 px-6 text-lg font-semibold bg-[#6366f1] rounded-xl"
             onClick={handleUploadClick}
           >
-            {file ? "Upload your INVOICE" : "Select a Invoice PDF to upload"}
+            {file ? "Submit your INVOICE" : "Select a Invoice PDF to upload"}
           </button>
           <p className="text-gray-500 text-sm">
             Click to browse, and upload a file here
