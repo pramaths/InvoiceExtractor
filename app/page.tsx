@@ -202,7 +202,7 @@ const ResumeReview: React.FC = () => {
             </div>
             <div>
               <h1 className="text-3xl font-semibold mt-8">
-                -: Resume Feedback :-
+                -:  Invoice Details :-
               </h1>
             </div>
 
