@@ -197,8 +197,10 @@ const ResumeReview: React.FC = () => {
   }, [file, fetchExtractedText]);
 
   return (
-    <div className="bg-gradient-to-b from-indigo-950 to-black flex flex-col justify-center items-center text-center text-white pt-48">
-      <Header title="Invoice Data Extractor" />
+    <div>
+            <Header title="Invoice Data Extractor" />
+
+    <div className="bg-gradient-to-b from-indigo-950 to-black flex flex-col justify-center items-center text-center text-white pt-48 h-screen">
       <div
         style={{
           backgroundImage: "url('/hero-light.svg')",
@@ -402,6 +404,7 @@ const ResumeReview: React.FC = () => {
           </div>
         </div> */}
       {/* </div> */}
+    </div>
     </div>
   );
 };
