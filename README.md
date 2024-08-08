@@ -41,3 +41,7 @@ InvoiceExtractor automates the extraction of information from invoice PDFs using
    ```
 5. Deploy on Vercel:
    - Push to your GitHub and connect to Vercel.
+
+
+## ScreenShot
+![alt text](image-1.png)
