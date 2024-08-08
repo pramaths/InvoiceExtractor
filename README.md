@@ -1,9 +1,9 @@
 # InvoiceExtractor
 
 ## Demo-URL
-```
-https://invoice-extractor-blush.vercel.app/
-```
+
+<a href="https://invoice-extractor-blush.vercel.app/" target="_blank" rel="noopener noreferrer">Visit InvoiceExtractor</a>
+
 
 ## Overview
 InvoiceExtractor automates the extraction of information from invoice PDFs using OpenAI's GPT Large Language Model. Built with Next.js for SSR and deployed on Vercel, this tool enhances performance and data management with Firebase as the backend database.
