@@ -37,9 +37,7 @@ To get started with InvoiceExtractor:
    ```
 3. Set up your environment variables in a `.env.local` file:
    ```
-   NEXT_PUBLIC_FIREBASE_API_KEY="your_firebase_api_key"
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="your_firebase_auth_domain"
-   // Add other necessary environment variables here
+   OPENAI_API_KEY=xxxxxxxxxxxxxxxxxx
    ```
 4. Run the development server:
    ```
